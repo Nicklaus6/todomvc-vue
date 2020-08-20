@@ -1,6 +1,14 @@
-(function (window) {
-	'use strict';
+(function (Vue) {
+  new Vue({
+    el: "#todoapp",
+    data () {
+      return {
 
-	// Your starting point. Enjoy the ride!
+      }
+    },
 
-})(window);
+  })
+
+
+
+})(Vue);

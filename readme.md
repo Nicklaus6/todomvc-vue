@@ -1,19 +1,87 @@
-# TodoMVC App Template
+# todomvc-vue项目总结
+### 一、项目初始化
 
-> Template used for creating [TodoMVC](http://todomvc.com) apps
+**1.下载模板**
 
-![](https://github.com/tastejs/todomvc-app-css/raw/master/screenshot.png)
+在存放该项目的目录下执行：
+
+   ```
+git clone  https://github.com/tastejs/todomvc-app-template.git
+   ```
+
+**2. 安装依赖**
+
+进入项目目录
+
+```
+cd todomvc-app-template
+```
+在项目目录下安装依赖
+
+```
+yarn
+```
+
+**3. 引入vue**
+
+安装vue
+
+```
+yarn add vue
+```
+
+在 `index.html` 中引入 vue
+
+```javascript
+<script src="node_modules/vue/dist/vue.js"></script>
+```
+
+在 `app.js`中创建vue对象并将其挂载到 DOM 元素 (`#todoapp`)
+
+![](D:\front-end\vue\learnVue\project\todomvc-app-template\conclusion.assets\js挂载todoapp.png)
+
+![](D:\front-end\vue\learnVue\project\todomvc-app-template\conclusion.assets\html挂载todoapp-1597927713210.png)
 
 
-## Getting started
 
-- Read the [Application Specification](https://github.com/tastejs/todomvc/blob/master/app-spec.md) before touching the template.
++ 完成以上操作后，用浏览器打开 `index.html` ，若界面是以下这样就说明项目初始化成功了。
 
-- Delete this file and rename `app-readme.md` to `readme.md` and fill it out.
-
-- Clone this repo and install the dependencies with [npm](https://npmjs.com) by running: `npm install`.
+  ![项目初始化完成](D:\front-end\vue\learnVue\project\todomvc-app-template\conclusion.assets\项目初始化完成.png)
 
 
-## License
 
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/4.0/80x15.png" /></a><br />This <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" rel="dct:type">work</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://sindresorhus.com" property="cc:attributionName" rel="cc:attributionURL">TasteJS</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.en_US">Creative Commons Attribution 4.0 International License</a>.
+### 二、功能实现和思路
+
+**1. 列表数据渲染**
+
+
+
+**2. 添加新的 todo**
+
+
+
+**3. 删除 todo**
+
+
+
+**4. 编辑 todo**
+
+
+
+**5. 状态切换 **
+
+
+
+**6. 计数**
+
+
+
+**7. 清除所有完成项**
+
+
+
+**8. 三种状态数据过滤**
+
+
+
+**9. 数据持久化**
