@@ -38,17 +38,11 @@ yarn add vue
 
 在 `app.js`中创建vue对象并将其挂载到 DOM 元素 (`#todoapp`)
 
-![](D:\front-end\vue\learnVue\project\todomvc-app-template\conclusion.assets\js挂载todoapp.png)
-
-![](D:\front-end\vue\learnVue\project\todomvc-app-template\conclusion.assets\html挂载todoapp-1597927713210.png)
-
 
 
 + 完成以上操作后，用浏览器打开 `index.html` ，若界面是以下这样就说明项目初始化成功了。
 
-  ![项目初始化完成](D:\front-end\vue\learnVue\project\todomvc-app-template\conclusion.assets\项目初始化完成.png)
-
-
+  
 
 ### 二、功能实现和思路
 
