@@ -14,7 +14,7 @@ git clone  https://github.com/tastejs/todomvc-app-template.git
 进入项目目录
 
 ```
-cd todomvc-app-template
+cd todomvc-vue
 ```
 在项目目录下安装依赖
 
