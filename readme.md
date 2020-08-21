@@ -36,7 +36,23 @@ yarn add vue
 <script src="node_modules/vue/dist/vue.js"></script>
 ```
 
-在 `app.js`中创建vue对象并将其挂载到 DOM 元素 (`#todoapp`)
+在 `app.js`中创建vue对象
+
+```javascript
+(function (Vue) {
+    new Vue({
+        el:"#todoapp",
+    })
+})(Vue)
+```
+
+并在`index.html`中将其挂载到 DOM 元素 (`#todoapp`)
+
+```html
+<body>
+	<section class="todoapp" id="todoapp">...</section>
+</body>
+```
 
 
 
