@@ -2,8 +2,8 @@
 
   let todos = [
     // 先写两条假数据测试一下
-    // { id: 1, content: "阿巴阿巴", completed: true },
-    // { id: 2, content: "马卡马卡", completed: false }
+    { id: 1, content: "阿巴阿巴", completed: true },
+    { id: 2, content: "马卡马卡", completed: false }
   ]
 
   new Vue({
@@ -28,6 +28,11 @@
         console.log(todos)
         // 清空输入框内容
         $event.target.value = ''
+      },
+      destroyTodo (index) {
+        //用 splice 方法通过参数 index 来找到要删除的 todo，删除一项
+        this.todos.splice(index, 1)
+        console.log(this.todos)
       }
     }
 

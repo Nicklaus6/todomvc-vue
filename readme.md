@@ -207,11 +207,35 @@ yarn add vue
       }
   ```
 
-  注意
+  
 
 **3. 删除 todo**
 
++ 点击 `.destroy`，删除所在的 `todo` : 
 
+  + `@click` 监听按钮点击事件并在 vue 的 `methods `中添加相应方法
+
+  + 数组的 `splice` 方法删除 `todo`
+  
+    ```html
+     <button class="destroy" @click="destroyTodo(index)"></button>
+    ```
+  
+    ```javascript
+        methods: {
+          ...
+          destroyTodo (index) {
+            // 用 splice 方法通过参数 index 来找到要删除的 todo，删除一项
+            this.todos.splice(index, 1)
+          }
+        }
+    ```
+  
+    
+
+
+
+​    
 
 **4. 编辑 todo**
 

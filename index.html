@@ -33,7 +33,7 @@
             <input class="toggle" type="checkbox" v-model="item.completed">
             <!-- mustache语法 渲染 label 内容 -->
             <label>{{ item.content }}</label>
-            <button class="destroy"></button>
+            <button class="destroy" @click="destroyTodo(index)"></button>
           </div>
           <input class="edit" value="Create a TodoMVC template">
         </li>
