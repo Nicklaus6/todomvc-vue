@@ -18,21 +18,17 @@
       <input class="new-todo" placeholder="What needs to be done?" autofocus @keyup.enter="addTodo">
     </header>
     <!-- This section should be hidden by default and shown when there are todos -->
-    <!-- v-if 条件渲染是否显示 .main -->
     <section class="main" v-if="todos.length">
       <input id="toggle-all" class="toggle-all" type="checkbox">
       <label for="toggle-all">Mark all as complete</label>
       <ul class="todo-list">
         <!-- These are here just to show the structure of the list items -->
         <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-        <!-- v-for  动态渲染数据列表
-             :class 绑定相应状态下的 class -->
-        <li v-for="(item,index) in todos" :key="item.id" :class="{completed:item.completed}">
+        <li v-for="(item,index) in todos" :key="item.id"
+          :class="{ completed: item.completed ,editing: item === currentEditing}">
           <div class="view">
-            <!-- v-model 双向数据绑定切换选框状态  -->
             <input class="toggle" type="checkbox" v-model="item.completed">
-            <!-- mustache语法 渲染 label 内容 -->
-            <label>{{ item.content }}</label>
+            <label @dblclick="currentEditing = item">{{ item.content }}</label>
             <button class="destroy" @click="destroyTodo(index)"></button>
           </div>
           <input class="edit" value="Create a TodoMVC template">
@@ -41,7 +37,6 @@
       </ul>
     </section>
     <!-- This footer should hidden by default and shown when there are todos -->
-    <!-- v-if 条件渲染是否显示 .footer -->
     <footer class="footer" v-if="todos.length">
       <!-- This should be `0 items left` by default -->
       <span class="todo-count"><strong>0</strong> item left</span>

@@ -10,7 +10,8 @@
     el: "#todoapp",
     data () {
       return {
-        todos: todos
+        todos: todos,
+        currentEditing: null
       }
     },
     methods: {
@@ -33,8 +34,11 @@
         //用 splice 方法通过参数 index 来找到要删除的 todo，删除一项
         this.todos.splice(index, 1)
         console.log(this.todos)
-      }
-    }
+      },
+
+    },
+
+
 
   })
 

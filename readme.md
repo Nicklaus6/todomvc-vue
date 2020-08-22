@@ -239,7 +239,25 @@ yarn add vue
 
 **4. 编辑 todo**
 
++ 双击 `label` ，给所在的 `li` 加上 class `.editing`
 
+  + `@dblclick`  监听 `label` 双击事件
+
+  + `:class` 给所在的 `li`绑定 class `.editing`
+
+  这里设置一个中间变量 `currentEditing` ，当监听到 `label` 双击事件时，`currentEditing = item`，而当 `item === currentEditing` 时，就给所在的 `li`绑定 class
+  
+  ```html
+  <li v-for="(item,index) in todos" :key="item.id"
+      :class="{ completed: item.completed ,editing: item === currentEditing }">
+  </li>
+  ```
+  
+  ```html
+  <label @dblclick="currentEditing = item">{{ item.content }}</label>
+  ```
+  
+  
 
 **5. 状态切换**
 
