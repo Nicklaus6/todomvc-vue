@@ -115,13 +115,13 @@ yarn add vue
 
 + 有数据时 
 
-  动态渲染数据列表 : `v-for` 列表渲染
+  + 动态渲染数据列表 : `v-for` 列表渲染
   
-  绑定相应状态下的 class : `:class` class 的绑定
+  + 绑定相应状态下的 class : `:class` class 的绑定
   
-  checkbox 选中状态切换 : `v-model` 双向数据绑定
+  + checkbox 选中状态切换 : `v-model` 双向数据绑定
   
-  label 内容渲染 : `Mustache`语法
+  + label 内容渲染 : `Mustache` 语法
   
   ```html
   <ul class="todo-list">
@@ -144,7 +144,7 @@ yarn add vue
   
   1. 为什么在使用 `v-for` 时 还要使用 `:key` ？
   
-     Vue在更新使用 `v-for` 渲染的列表元素时，会采用一种 **就地复用** 策略，尽可能的尝试就地修改/复用相同类型元素。而 `:key` 给了每个节点一个**唯一标识**，让虚拟 DOM 中的 Diff 算法正确识别节点，从而重用和重新排序现有元素，从而更加**高效地更新虚拟 DOM**。
+     Vue在更新使用 `v-for` 渲染的列表元素时，会采用一种 **就地复用** 策略，尽可能的尝试就地修改/复用相同类型元素。而 `:key` 给了每个节点一个 **唯一标识**，让虚拟 DOM 中的 Diff 算法正确识别节点，从而重用和重新排序现有元素，从而更加 **高效地更新虚拟 DOM**。
   
      
   
@@ -167,7 +167,47 @@ yarn add vue
 
 **2. 添加新的 todo**
 
++ 按下回车，输入内容不为空，添加一条 `todo`  : 
 
+  + `@keyup.enter` 监听键盘回车事件并在 vue 的 `methods `中添加相应方法
+
+  + 创建 `newTodo` 数据对象，获取数据，数据模型与 `todos` 相同
+
+  + 用 `push` 将 `newTodo` 加入 `todo`中
+
++ 内容为空则什么都不做 
+
++ 添加完后输入框内容清空 
+
+  ```html
+  <input class="new-todo"
+         placeholder="What needs to be done?"
+         autofocus
+         @keyup.enter="addTodo">
+  </input>
+  ```
+
+  ```javascript
+  methods: {
+        addTodo ($event) {
+          // 创建 newTodo 对象，获取数据
+          const newTodo = {
+            id: this.todos.length + 1,
+            content: $event.target.value.trim(),
+            completed: false
+          }
+          // 如果内容为空，什么都不做
+          if (!newTodo.content.length) return
+          // 如果内容不为空，将 newTodo 加入 todos 中
+          this.todos.push(newTodo)
+          console.log(todos)
+          // 清空输入框内容
+          $event.target.value = ''
+        }
+      }
+  ```
+
+  注意
 
 **3. 删除 todo**
 
