@@ -222,13 +222,13 @@ yarn add vue
     ```
   
     ```javascript
-        methods: {
+    methods: {
           ...
           destroyTodo (index) {
             // 用 splice 方法通过参数 index 来找到要删除的 todo，删除一项
             this.todos.splice(index, 1)
           }
-        }
+    }
     ```
   
     
@@ -239,25 +239,112 @@ yarn add vue
 
 **4. 编辑 todo**
 
-+ 双击 `label` ，给所在的 `li` 加上 class `.editing`
++ 双击 `label` ，进入编辑模式
 
   + `@dblclick`  监听 `label` 双击事件
 
   + `:class` 给所在的 `li`绑定 class `.editing`
 
-  这里设置一个中间变量 `currentEditing` ，当监听到 `label` 双击事件时，`currentEditing = item`，而当 `item === currentEditing` 时，就给所在的 `li`绑定 class
-  
+  这里设置一个中间变量 `currentEditing` （就像一种状态），当监听到 `label` 双击事件时，`currentEditing = item`，而当 `item === currentEditing` 时，就给所在的 `li`绑定 class
+
   ```html
   <li v-for="(item,index) in todos" :key="item.id"
-      :class="{ completed: item.completed ,editing: item === currentEditing }">
+      :class="{ completed: item.completed , editing: item === currentEditing }">
   </li>
   ```
-  
-  ```html
+
+  ```
   <label @dblclick="currentEditing = item">{{ item.content }}</label>
   ```
   
+  + 局部自定义指令 `directives` 让输入框自动获取焦点
   
+    ```html
+    <input class="edit" 
+           :value="item.content"
+           v-editing-focus="item === currentEditing">
+    </input>
+    ```
+  ```javascript
+    
+    directives:{
+      // update 在所有组件的 VNode(虚拟节点) 更新时调用，但可能发生在其子 VNode 更新之前。
+    	update(el,binding){
+        // el : 用来操作元素 DOM
+        // binding.value : 指令的绑定值 这里即 item === currentEditing
+    		if(binding.value){
+    			el.focus()
+    		}
+    	}
+    }
+  ```
+  
+    
+
+
++ 输入内容后回车或失焦，将原本的 `todo`内容替换为输入的内容
+  + `@keyup.enter`监听键盘回车事件；`@blur`监听失焦事件
+  
+    ```html
+    <input class="edit"
+           :value="item.content"
+           v-editing-focus="item === currentEditing"
+           @keyup.enter="saveEditing(item,index,$event)"        		 	                      @blur="saveEditing(item,index,$event)">
+    ```
+    
+  
+    
+  + 在vue 的 `methods `中添加相应方法
+  
+    ```javascript
+    saveEditing (item, index, $event) {
+            // 将输入的内容保存到 newContent 变量中
+            const newContent = $event.target.value.trim()
+            // 如果内容为空 就删除 todo 
+            if (!newContent) this.destroyTodo(index)
+            //将原本容替换为输入的内容
+            item.content = newContent
+            //通过设置 currentEditing ，移除掉 .editing ，退出编辑模式。
+            this.currentEditing = null
+          }
+    ```
+  
+    
+  
+  + `:value` 给 `input`绑定内容
+  
+    ```html
+    <input class="toggle"
+           type="checkbox"
+           v-model="item.completed"
+           :value="item.content">
+    ```
+  
+    
+  
++ 按下 esc，退出编辑模式
+  
+  
+  + `@keyup.esc` 监听键盘回车事件并在vue 的 `methods `中添加相应方法
+  
+    ```html
+    <input class="edit"
+           :value="item.content"
+           v-editing-focus="item === currentEditing"
+           @keyup.enter="saveEditing(item,index,$event)"        		 	                      @blur="saveEditing(item,index,$event)"
+           @keyup.esc="quitEditing">
+    ```
+  
+    ```javascript
+    quitEditing () {
+            // 通过设置 currentEditing 移除掉 .editing 退出编辑模式
+            this.currentEditing = null
+          }
+    ```
+  
+    
+
+
 
 **5. 状态切换**
 

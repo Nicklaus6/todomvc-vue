@@ -14,6 +14,18 @@
         currentEditing: null
       }
     },
+    directives: {
+      editingFocus: {
+        // update 在所在组件的 VNode(虚拟节点) 更新时调用，但是可能发生在其子 VNode 更新之前。
+        update (el, binding) {
+          // el : 操作元素 DOM
+          // binding.value : 指令的绑定值 这里即 item === currentEditing
+          if (binding.value) {
+            el.focus()
+          }
+        }
+      },
+    },
     methods: {
       addTodo ($event) {
         // 创建 newTodo 对象 , 获取数据
@@ -35,6 +47,20 @@
         this.todos.splice(index, 1)
         console.log(this.todos)
       },
+      saveEditing (item, index, $event) {
+        // 将输入的内容保存到 newContent 变量中
+        const newContent = $event.target.value.trim()
+        // 如果内容为空 就删除 todo 
+        if (!newContent) this.destroyTodo(index)
+        // 将原本容替换为输入的内容
+        item.content = newContent
+        // 通过设置 currentEditing 移除掉 .editing 退出编辑模式
+        this.currentEditing = null
+      },
+      quitEditing () {
+        // 通过设置 currentEditing 移除掉 .editing 退出编辑模式
+        this.currentEditing = null
+      }
 
     },
 
