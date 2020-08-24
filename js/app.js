@@ -34,10 +34,10 @@
       //   return !this.todos.find(item => !item.completed)
       // }
       isAllChecked () {
-        if (!this.todos.length) return false
-        console.log(this.todos.every(item => item.completed))
-        return this.todos.every(item => item.completed)
-        // return !this.todos.find(item => !item.completed)
+        // if (!this.todos.length) return false
+        // console.log(this.todos.every(item => item.completed))
+        // return this.todos.every(item => item.completed)
+        return !this.todos.some(item => !item.completed)
       }
     },
     methods: {
