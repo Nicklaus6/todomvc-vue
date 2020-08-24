@@ -170,14 +170,8 @@ yarn add vue
 + 按下回车，输入内容不为空，添加一条 `todo`  : 
 
   + `@keyup.enter` 监听键盘回车事件并在 vue 的 `methods `中添加相应方法
-
-  + 创建 `newTodo` 数据对象，获取数据，数据模型与 `todos` 相同
-
-  + 用 `push` 将 `newTodo` 加入 `todo`中
-
-+ 内容为空则什么都不做 
-
-+ 添加完后输入框内容清空 
+  + 内容为空则什么都不做 
+  + 添加完后输入框内容清空 
 
   ```html
   <input class="new-todo"
@@ -200,7 +194,6 @@ yarn add vue
           if (!newTodo.content.length) return
           // 如果内容不为空，将 newTodo 加入 todos 中
           this.todos.push(newTodo)
-          console.log(todos)
           // 清空输入框内容
           $event.target.value = ''
         }
@@ -208,6 +201,7 @@ yarn add vue
   ```
 
   
+
 
 **3. 删除 todo**
 
@@ -283,7 +277,7 @@ yarn add vue
 
 
 + 输入内容后回车或失焦，将原本的 `todo`内容替换为输入的内容
-  + `@keyup.enter`监听键盘回车事件；`@blur`监听失焦事件
+  + `@keyup.enter` 监听键盘回车事件；`@blur` 监听失焦事件
   
     ```html
     <input class="edit"
@@ -325,7 +319,7 @@ yarn add vue
 + 按下 esc，退出编辑模式
   
   
-  + `@keyup.esc` 监听键盘回车事件并在vue 的 `methods `中添加相应方法
+  + `@keyup.esc` 监听键盘回车事件
   
     ```html
     <input class="edit"
@@ -334,7 +328,7 @@ yarn add vue
            @keyup.enter="saveEditing(item,index,$event)"        		 	                      @blur="saveEditing(item,index,$event)"
            @keyup.esc="quitEditing">
     ```
-  
+  + 并在vue 的 `methods `中添加相应方法
     ```javascript
     quitEditing () {
             // 通过设置 currentEditing 移除掉 .editing 退出编辑模式
@@ -346,9 +340,10 @@ yarn add vue
 
 
 
-**5. 状态切换**
+**5. 标记所有任务完成或者未完成**
 
-
++ 点击 `.toggle-all` ，有一个没完成就全完成，全都完成就全都没完成。
++ 所有单选框被选中时，`.toggle-all`也被勾选
 
 **6. 计数**
 

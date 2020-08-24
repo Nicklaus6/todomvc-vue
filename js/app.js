@@ -11,7 +11,8 @@
     data () {
       return {
         todos: todos,
-        currentEditing: null
+        currentEditing: null,
+
       }
     },
     directives: {
@@ -26,6 +27,19 @@
         }
       },
     },
+    computed: {
+      // isSelectedAll () {
+      //   if (!this.todos.length) return false
+      //   console.log('isSelectedAll' + !this.todos.find(item => !item.completed))
+      //   return !this.todos.find(item => !item.completed)
+      // }
+      isAllChecked () {
+        if (!this.todos.length) return false
+        console.log(this.todos.every(item => item.completed))
+        return this.todos.every(item => item.completed)
+        // return !this.todos.find(item => !item.completed)
+      }
+    },
     methods: {
       addTodo ($event) {
         // 创建 newTodo 对象 , 获取数据
@@ -38,7 +52,6 @@
         if (!newTodo.content.length) return
         // 如果内容不为空 将 newTodo 加入 todos 中
         this.todos.push(newTodo)
-        console.log(todos)
         // 清空输入框内容
         $event.target.value = ''
       },
@@ -60,8 +73,36 @@
       quitEditing () {
         // 通过设置 currentEditing 移除掉 .editing 退出编辑模式
         this.currentEditing = null
-      }
+      },
+      toggleAll ($event) {
+        // 获取 .toggleAll 的勾选状态
+        let isToggled = $event.target.checked
+        // 将所有的 todos 的完成状态 和 .toggleAll 的勾选状态 绑定
+        this.todos.forEach(item => item.completed = isToggled);
 
+        // console.log(this.isAllChecked)
+        // if (this.isAllChecked) { // 全选了 就全取消选中
+        //   this.todos.forEach(item => item.completed = false);
+        // } else { //没有全选中 就全选中
+        //   this.todos.forEach(item => item.completed = true)
+        // }
+
+      },
+      // listenAllChecked (item) {
+      //   // 监听所有单选框 全选中了就 全选框勾选 有一个没选中 全选框就不勾选
+      //   console.log(item.completed)
+      //   console.log('1')
+      // }
+
+      // toggleAllChecked () {
+      //   if (this.isSelectedAll) { //全选
+      //     console.log(this.isSelectedAll)
+      //     this.todos.forEach(item => item.completed = false);
+      //   } else { //没有全选中
+      //     console.log(this.isSelectedAll)
+      //     this.todos.forEach(item => item.completed = true)
+      //   }
+      // }
     },
 
 
