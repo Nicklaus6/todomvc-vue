@@ -160,7 +160,7 @@ yarn add vue
      <input v-model="something"></input>
      以上操作等价于
      <input :value="something" @input="something = $event.target.value"></input>
-     先绑定一个 something 属性，在通过监听 input 事件，当用户改变输入框数据时，通过事件传递过来的事件对象中的 target 找到事件源，value 表示事件源的值，从而实现双向数据绑定的效果。
+     先绑定一个 something 属性，在通过监听 input 事件，当用户改变输入框数据时，通过设置当前事件的目标dom的value，从而实现双向数据绑定的效果。
      ```
   
      
@@ -342,8 +342,94 @@ yarn add vue
 
 **5. 标记所有任务完成或者未完成**
 
-+ 点击 `.toggle-all` ，有一个没完成就全完成，全都完成就全都没完成。
-+ 所有单选框被选中时，`.toggle-all`也被勾选
++ 点击 `.toggle-all` ，将所有的 `todos` 的完成状态 和 `.toggleAll` 的勾选状态 绑定
+
+  + `@click` 监听按钮点击事件并在 vue 的 `methods `中添加相应方法
+
+    ```html
+    <input id="toggle-all" class="toggle-all" type="checkbox"
+           @click="toggleAll">
+    ```
+
+    ```javascript
+    methods: {
+          toggleAll ($event) {
+            // 获取 .toggleAll 的勾选状态
+            let isToggled = $event.target.checked
+            // 将所有的 todos 的完成状态 和 .toggleAll 的勾选状态 绑定
+            this.todos.forEach(item => item.completed = isToggled);
+          },  		
+    }
+    ```
+
+    
+
++ 将  `.toggleAll` 的勾选状态 和  `todos` 是否全选绑定
+
+  + 给 `.toggle-all`  的`checked` 属性绑定一个的计算属性来监听单选框选中情况的改变并在 vue 的 `computed `中添加相应方法
+
+    ```html
+    <input id="toggle-all" class="toggle-all" type="checkbox"
+           @click="toggleAll"
+           :checked="isAllChecked">
+    <!-- 也可以写 v-model="isAllChecked" 因为 checkbox 使用 checked property 和 change 事件 -->
+    ```
+
+    ```javascript
+    computed: {
+          isAllChecked () {
+            return !this.todos.find(item => !item.completed)
+          }
+        },
+    ```
+
+**思考：**
+
+ 1. `computed` vs `methods`  ? `computed`  vs `watch` ?
+
+    `computed` vs `methods` ：
+
+    **计算属性是基于它们的响应式依赖进行缓存的**。只有相关响应式依赖发生改变时，他们才会重新求值。而**方法**会在每次重新渲染时调用函数，**不占用缓存但是会消耗一定时间**。
+
+    `computed` vs `watch` ：
+
+    虽然**计算属性在大多数情况下更合适**，但是当需要在**数据变化时执行异步或开销较大的操作**时，使用**侦听器**更合适。
+
+    
+
+ 2. `v-model` 在内部为 checkbox 使用的 property`和抛出的事件？
+
+    checkbox 和 radio 使用 `checked` property 和 `change` 事件。什么是 `change` 事件？其实就是 HTML 的 `onchange` 事件。它是元素值被改变（用户改变，用代码内部改变无效）且表单失焦时触发的事件。
+
+    所以此时 `v-model`的原理是：
+
+    ```html
+    <input type="checkbox" v-model="something"></input>
+    以上操作等价于
+    <input type="checkbox" 
+           :checked="something" @change="something = $event.target.checked">
+    </input>
+    ```
+
+    同理，select 字段将 `value` 作为 prop 并将 `change` 作为事件。
+
+    ```html
+     <select name="" id="" v-model="something">
+                <option disabled value="">请选择</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+    </select>
+    以上操作等价于
+     <select name="" id="" :value="something" @change="something = $event.target.value">
+                <option disabled value="">请选择</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+    </select>
+    ```
+
+    
 
 **6. 计数**
 
