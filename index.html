@@ -42,7 +42,7 @@
       </ul>
     </section>
     <!-- This footer should hidden by default and shown when there are todos -->
-    <footer class="footer">
+    <footer class="footer" v-if="todos.length">
       <!-- This should be `0 items left` by default -->
       <span class="todo-count"><strong>{{todoCount}}</strong> item left</span>
       <!-- Remove this if you don't implement routing -->
@@ -58,7 +58,7 @@
         </li>
       </ul>
       <!-- Hidden if no completed items are left ↓ -->
-      <button class="clear-completed">Clear completed</button>
+      <button class="clear-completed" @click="clearCompleted" v-show="hasCompleted">Clear completed</button>
     </footer>
   </section>
   <footer class="info">

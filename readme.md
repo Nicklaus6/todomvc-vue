@@ -459,7 +459,48 @@ yarn add vue
 
 **7. 清除所有完成项**
 
++ 点击 `clear-completed` ，清除所有完成项
 
+  + `@click` 监听按钮点击事件并在 vue 中添加相应方法
+
+    ```html
+    <button class="clear-completed" @click="clearCompleted">Clear completed</button>
+    ```
+
+    ```javascript
+    methods: {
+          clearCompleted () {
+            this.todos = this.todos.filter(item => !item.completed)
+          }
+        },
+    ```
+
+    
+
++ 当至少有一项完成项才显示
+
+  + `v-show` 切换状态
+
+    ```html
+    <button class="clear-completed" 
+            @click="clearCompleted"
+            v-show="hasCompleted">Clear completed</button>
+    ```
+
+    
+
+  + 绑定计算属性判断是否至少有一项完成项
+
+    ```javascript
+    computed: {
+          hasCompleted () {
+            // 当至少有一项完成项才显示
+            return this.todos.filter(item => item.completed > 0).length > 0
+          }
+        },
+    ```
+
+    
 
 **8. 三种状态数据过滤**
 

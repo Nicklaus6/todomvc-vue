@@ -33,6 +33,10 @@
       },
       todoCount () {
         return this.todos.filter(item => !item.completed).length
+      },
+      hasCompleted () {
+        // 当至少有一项完成项才显示
+        return this.todos.filter(item => item.completed > 0).length > 0
       }
     },
     methods: {
@@ -75,13 +79,8 @@
         // 将所有的 todos 的完成状态 和 .toggleAll 的勾选状态 绑定
         this.todos.forEach(item => item.completed = isToggled);
       },
-      checkboxChangeTest ($event) {
-
-        console.log($event.target.checked)
-      },
-      selectChangeTest ($event) {
-        console.log($event.target.value)
-
+      clearCompleted () {
+        this.todos = this.todos.filter(item => !item.completed)
       }
     },
   })
