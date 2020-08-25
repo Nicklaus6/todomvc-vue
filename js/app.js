@@ -30,6 +30,9 @@
     computed: {
       isAllChecked () {
         return !this.todos.find(item => !item.completed)
+      },
+      todoCount () {
+        return this.todos.filter(item => !item.completed).length
       }
     },
     methods: {

@@ -1,4 +1,5 @@
 # todomvc-vue 项目总结
+
 ### 一、项目初始化
 
 **1.下载模板**
@@ -344,29 +345,29 @@ yarn add vue
 
 + 点击 `.toggle-all` ，将所有的 `todos` 的完成状态 和 `.toggleAll` 的勾选状态 绑定
 
-  + `@click` 监听按钮点击事件并在 vue 的 `methods `中添加相应方法
+  + `@click` 监听按钮点击事件
 
     ```html
     <input id="toggle-all" class="toggle-all" type="checkbox"
            @click="toggleAll">
     ```
-
-    ```javascript
-    methods: {
-          toggleAll ($event) {
-            // 获取 .toggleAll 的勾选状态
-            let isToggled = $event.target.checked
-            // 将所有的 todos 的完成状态 和 .toggleAll 的勾选状态 绑定
-            this.todos.forEach(item => item.completed = isToggled);
-          },  		
-    }
-    ```
-
-    
-
+  
+  + 并在 vue 的 `methods `中添加相应方法
+  
+  ```javascript
+  methods: {
+        toggleAll ($event) {
+          // 获取 .toggleAll 的勾选状态
+          let isToggled = $event.target.checked
+          // 将所有的 todos 的完成状态 和 .toggleAll 的勾选状态 绑定
+          this.todos.forEach(item => item.completed = isToggled);
+        },  		
+  }
+  ```
+  
 + 将  `.toggleAll` 的勾选状态 和  `todos` 是否全选绑定
 
-  + 给 `.toggle-all`  的`checked` 属性绑定一个的计算属性来监听单选框选中情况的改变并在 vue 的 `computed `中添加相应方法
+  + 给 `.toggle-all`  的`checked` 属性绑定一个的计算属性来监听单选框选中情况的改变
 
     ```html
     <input id="toggle-all" class="toggle-all" type="checkbox"
@@ -374,6 +375,8 @@ yarn add vue
            :checked="isAllChecked">
     <!-- 也可以写 v-model="isAllChecked" 因为 checkbox 使用 checked property 和 change 事件 -->
     ```
+
+  + 并在 vue 的 `computed `中添加相应方法
 
     ```javascript
     computed: {
@@ -414,26 +417,45 @@ yarn add vue
     同理，select 字段将 `value` 作为 prop 并将 `change` 作为事件。
 
     ```html
-     <select name="" id="" v-model="something">
+    <select name="" id="" v-model="something">
                 <option disabled value="">请选择</option>
                 <option>A</option>
                 <option>B</option>
-                <option>C</option>
     </select>
     以上操作等价于
-     <select name="" id="" :value="something" @change="something = $event.target.value">
+    <select name="" id="" :value="something" @change="something = $event.target.value">
                 <option disabled value="">请选择</option>
                 <option>A</option>
                 <option>B</option>
-                <option>C</option>
     </select>
     ```
-
+    
     
 
 **6. 计数**
 
++ 在 `.todo-count`显示未完成的 `todo` 的数量
 
+  + 模板语法
+
+    ```html
+     <span class="todo-count"><strong>{{todoCount}}</strong> item left</span>
+    ```
+
+    
+
+  + 在 vue 中添加计算属性
+
+    ```javascript
+    computed: {
+          todoCount () {
+            // es6 的 filter 方法
+            return this.todos.filter(item => !item.completed).length
+          }
+        },
+    ```
+
+    
 
 **7. 清除所有完成项**
 
