@@ -72,7 +72,7 @@ yarn add vue
       { id: 2, content: "马卡马卡", completed: false }
   ]
   
-   new Vue({
+  window.app = new Vue({
       ...
       data () {
         return {
@@ -504,6 +504,90 @@ yarn add vue
 
 **8. 三种状态数据过滤**
 
++ 点击不同的状态，获取相应的数据
 
+  + 在 vue 的 `data` 中保存过滤状态，默认为 'all'
+
+    ```javascript
+    data () {
+          return {
+            todos: todos,
+            currentEditing: null,
+            filterState: 'all'
+          }
+        },
+    ```
+
+    
+
+  + 通过 `window.onhashchange` 获取点击状态的路由 hash保存为当前的状态值，并且赋给 data 中的过滤状态
+
+    ```javascript
+    // 路由状态切换
+      // 当 一个窗口的 hash （URL 中 # 后面的部分）改变时就会触发 hashchange 事件
+      window.onhashchange = function () {
+        // 获取当前点击状态的路由 hash  获取的 location.hash 是 #/all 这样的数据
+        const hash = window.location.hash.substr(2) || 'all'
+        // 将路由状态赋给 过滤状态
+        window.app.filterState = hash
+      }
+      // 页面第一次进来保持状态
+      window.onhashchange()
+    ```
+
+  + 通过计算属性来渲染过滤状态下的渲染的数据
+
+    定义计算属性：根据过滤状态返回相应的`todo`
+
+    ```javascript
+    computed: {
+          filterTodos () {
+            switch (this.filterState) {
+              case 'active':
+                return this.todos.filter(item => !item.completed);
+                break
+              case 'completed':
+                return this.todos.filter(item => item.completed);
+                break
+              default:
+                return this.todos;
+                break
+            }
+          }
+        },
+    ```
+    修改 todo 的列表循环
+
+    ```html
+    <li v-for="(item,index) in filterTodos" :key="item.id"
+        :class="{
+                completed: item.completed,
+                editing: item === currentEditing
+        }">
+    </li>
+    ```
+    
+
++ 根据状态改变状态按钮的样式
+
+  + `:class` 给选中的状态绑定 `.selected` 样式
+
+    ```html
+    <ul class="filters">
+            <li>
+              <a :class="{selected:filterState==='all'}" href="#/">All</a>
+            </li>
+            <li>
+              <a href="#/active"
+                 :class="{selected:filterState==='active'}">Active</a>
+            </li>
+            <li>
+              <a href="#/completed"
+                 :class="{selected:filterState==='completed'}">Completed</a>
+            </li>
+          </ul>
+    ```
+    
+    
 
 **9. 数据持久化**

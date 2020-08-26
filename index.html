@@ -25,7 +25,7 @@
       <ul class="todo-list">
         <!-- These are here just to show the structure of the list items -->
         <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-        <li v-for="(item,index) in todos" :key="item.id" :class="{
+        <li v-for="(item,index) in filterTodos" :key="item.id" :class="{
             completed: item.completed,
             editing: item === currentEditing
           }">
@@ -48,13 +48,13 @@
       <!-- Remove this if you don't implement routing -->
       <ul class="filters">
         <li>
-          <a class="selected" href="#/">All</a>
+          <a :class="{selected:filterState==='all'}" href="#/">All</a>
         </li>
         <li>
-          <a href="#/active">Active</a>
+          <a href="#/active" :class="{selected:filterState==='active'}">Active</a>
         </li>
         <li>
-          <a href="#/completed">Completed</a>
+          <a href="#/completed" :class="{selected:filterState==='completed'}">Completed</a>
         </li>
       </ul>
       <!-- Hidden if no completed items are left ↓ -->

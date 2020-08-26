@@ -6,13 +6,13 @@
     { id: 2, content: "马卡马卡", completed: false }
   ]
 
-  new Vue({
+  window.app = new Vue({
     el: "#todoapp",
     data () {
       return {
         todos: todos,
         currentEditing: null,
-
+        filterState: 'all'
       }
     },
     directives: {
@@ -37,6 +37,19 @@
       hasCompleted () {
         // 当至少有一项完成项才显示
         return this.todos.filter(item => item.completed > 0).length > 0
+      },
+      filterTodos () {
+        switch (this.filterState) {
+          case 'active':
+            return this.todos.filter(item => !item.completed);
+            break
+          case 'completed':
+            return this.todos.filter(item => item.completed);
+            break
+          default:
+            return this.todos;
+            break
+        }
       }
     },
     methods: {
@@ -83,8 +96,18 @@
         this.todos = this.todos.filter(item => !item.completed)
       }
     },
-  })
+  });
+  // 路由状态切换
 
-
+  // 当 一个窗口的 hash （URL 中 # 后面的部分）改变时就会触发 hashchange 事件
+  window.onhashchange = function () {
+    // 获取当前点击状态的路由 hash  获取的 location.hash 是 #/all 这样的数据
+    const hash = window.location.hash.substr(2) || 'all'
+    // 将路由状态赋给 过滤状态
+    window.app.filterState = hash
+    console.log(window.app.filterState)
+  }
+  // 页面第一次进来保持状态
+  window.onhashchange()
 
 })(Vue);
