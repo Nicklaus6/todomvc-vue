@@ -55,7 +55,7 @@ yarn add vue
 
 
 
-完成以上操作后，用浏览器打开 `index.html` ，若界面是以下这样就说明项目初始化*成功*了。
+完成以上操作后，用浏览器打开 `index.html` ，若界面是以下这样就说明项目 **初始化成功** 了。
 
 
 
@@ -520,7 +520,7 @@ yarn add vue
 
     
 
-  + 通过 `window.onhashchange` 获取点击状态的路由 hash保存为当前的状态值，并且赋给 data 中的过滤状态
+  + 通过 `window.onhashchange` 获取点击状态的路由 hash 保存为当前的状态值，并且赋给 data 中的过滤状态
 
     ```javascript
     // 路由状态切换
@@ -591,3 +591,82 @@ yarn add vue
     
 
 **9. 数据持久化**
+
++ 在  vue 实例外部 定义一个数据存储对象, 有以下两个方法：
+  + 获取本地数据
+  + 保存数据到本地
+
+```javascript
+  let STOREAGE_KEY = "todo-items"
+
+  // 定义数据存储对象
+  const todoStorage = {
+    // 获取本地数据 localStorage.getItem("key")
+    fetch: function () {
+      // 返回获取的本地数据的数组对象 ,如果为空，则是空数组 || '[]',
+      return JSON.parse(localStorage.getItem(STOREAGE_KEY) || '[]')
+    },
+    // 保存数据到本地 localStorage.setItem("key","value")
+    save: function (todos) {
+      // 以 JSON 字符串形式存储 todos 数据
+      localStorage.setItem(STOREAGE_KEY, JSON.stringify(todos))
+    }
+  }
+```
+
++ 修改 vue 实例的 `data` 中的 `todos`，以本地数据初始化
+
+  ```javascript
+  data () {
+        return {
+          todos: todoStorage.fetch(),
+          currentEditing: null,
+          filterState: 'all'
+        }
+  ```
+  
++ 通过 vue 的 `watch` 监听 `todos`的变化，一有改变就将数据保存到本地
+
+```javascript
+watch: {
+      // 监听 todos 变化
+      todos: {
+        deep: true, // 监听对象内部值的变化
+        handler (newTodos) {
+          todoStorage.save(newTodos)
+        }
+      }
+    },
+```
+
+**思考：** 为什么使用 `localStorage`  而不是 `sessionStorage`？
+
+`localStorage` 用于 **长久** 保存整个网站的数据，关闭标签页数据也不会消失，保存的数据没有过期时间，直到手动删除。
+
+`localStorage`的语法：
+
++ 保存数据
+
+  ```javascript
+  localStorage.setItem("key","value")
+  ```
+
+  
+
++ 读取数据
+
+  ```javascript
+  let myLocalStorage = localStorage.getItem("key")
+  ```
+
+  
+
++ 删除数据
+
+  ```javascript
+  localStorage.removeItem("key")
+  ```
+
+  
+
+`sessionStorage` 用于只想将数据保存在 **当前会话** 中时，关闭标签页数据会被删除。

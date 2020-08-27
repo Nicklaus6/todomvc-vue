@@ -1,16 +1,32 @@
 (function (Vue) {
 
-  let todos = [
-    // 先写两条假数据测试一下
-    { id: 1, content: "阿巴阿巴", completed: true },
-    { id: 2, content: "马卡马卡", completed: false }
-  ]
+  // let todos = [
+  //   // 先写两条假数据测试一下
+  //   { id: 1, content: "阿巴阿巴", completed: true },
+  //   { id: 2, content: "马卡马卡", completed: false }
+  // ]
+
+  let STOREAGE_KEY = "todo-items"
+
+  // 定义数据存储对象
+  const todoStorage = {
+    // 获取本地数据 localStorage.getItem("key")
+    fetch: function () {
+      // 返回获取的本地数据的数组对象 ,如果为空，则是空数组 || '[]',
+      return JSON.parse(localStorage.getItem(STOREAGE_KEY) || '[]')
+    },
+    // 保存数据到本地 localStorage.setItem("key","value")
+    save: function (todos) {
+      // 以 JSON 字符串形式存储 todos 数据
+      localStorage.setItem(STOREAGE_KEY, JSON.stringify(todos))
+    }
+  }
 
   window.app = new Vue({
     el: "#todoapp",
     data () {
       return {
-        todos: todos,
+        todos: todoStorage.fetch(),
         currentEditing: null,
         filterState: 'all'
       }
@@ -26,6 +42,15 @@
           }
         }
       },
+    },
+    watch: {
+      // 监听 todos 变化
+      todos: {
+        deep: true, // 监听对象内部值的变化
+        handler (newTodos) {
+          todoStorage.save(newTodos)
+        }
+      }
     },
     computed: {
       isAllChecked () {
@@ -70,7 +95,6 @@
       destroyTodo (index) {
         //用 splice 方法通过参数 index 来找到要删除的 todo，删除一项
         this.todos.splice(index, 1)
-        console.log(this.todos)
       },
       saveEditing (item, index, $event) {
         // 将输入的内容保存到 newContent 变量中
@@ -97,8 +121,8 @@
       }
     },
   });
-  // 路由状态切换
 
+  // 路由状态切换
   // 当 一个窗口的 hash （URL 中 # 后面的部分）改变时就会触发 hashchange 事件
   window.onhashchange = function () {
     // 获取当前点击状态的路由 hash  获取的 location.hash 是 #/all 这样的数据
